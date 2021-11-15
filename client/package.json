@@ -1,5 +1,5 @@
 {
-  "name": "city-climate-search",
+  "name": "city-climate-search-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
