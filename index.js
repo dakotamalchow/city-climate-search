@@ -18,11 +18,32 @@ app.get("/", async (req,res) => {
             .toArray();
     };
 
+    /*
+    const climateData = {
+        "Record high": {
+            "Jan": 95,
+            "Feb": 95
+        }.
+        "Mean maximum": {
+            "Jan": 83.0,
+            "Feb": 82.8
+        }
+    }
+    */
+
     const extractClimateData = $ => {
-        return $("tr th")
-            .filter((_, el) => $(el).text().includes("Climate"))
-            .map((_, el) => $(el).text())
-            .toArray();
+        const climateData = {};
+        // tr elements
+        const rows = $("tr")
+            //-> must include text
+            .filter((_, el) => $(el).text().includes("Climate data for"))
+            // -> get parent (tbody) -> get the first one -> get children (tr's)
+            .parent().first().children();
+        // tr elements -> skip first one (table name) -> get first one (month row)
+        const months = rows.next().first()
+            // -> get children (th's) -> skip first one -> get text -> split by new line -> filter if not empty string/undefined
+            .children("th").next().text().split("\n").filter(month => month);
+        return "blah";
     };
 
     // is currently only returning the first 100 results
