@@ -22,12 +22,15 @@ app.get("/", async (req,res) => {
     const climateData = {
         "Record high": {
             "Jan": 95,
-            "Feb": 95
-        }.
+            "Feb": 95,
+            ...
+        },
         "Mean maximum": {
             "Jan": 83.0,
-            "Feb": 82.8
-        }
+            "Feb": 82.8,
+            ...
+        },
+        ...
     }
     */
 
