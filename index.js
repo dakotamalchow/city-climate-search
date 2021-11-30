@@ -33,17 +33,27 @@ app.get("/", async (req,res) => {
 
     const extractClimateData = $ => {
         const climateData = {};
-        // tr elements
+
         const rows = $("tr")
-            //-> must include text
             .filter((_, el) => $(el).text().includes("Climate data for"))
-            // -> get parent (tbody) -> get the first one -> get children (tr's)
             .parent().first().children();
-        // tr elements -> skip first one (table name) -> get first one (month row)
         const months = rows.next().first()
-            // -> get children (th's) -> skip first one -> get text -> split by new line -> filter if not empty string/undefined
             .children("th").next().text().split("\n").filter(month => month);
-        return "blah";
+
+        let categoryTableData = rows.next().next();
+        const categoryCount = categoryTableData.length - 1;
+        for (let i=0; i<categoryCount; i ++) {
+            const categoryName = categoryTableData.first().children("th").text().trim();
+            const categoryRowData = categoryTableData.children("td").text().split("\n").filter(data => data);
+            climateData[categoryName] = {};
+            for (let j=0; j<months.length; j++) {
+                climateData[categoryName][months[j]] = categoryRowData[j];
+            }
+            // returns the next and following elements
+            categoryTableData = categoryTableData.next();
+        }
+
+        return climateData;
     };
 
     // is currently only returning the first 100 results
@@ -53,12 +63,12 @@ app.get("/", async (req,res) => {
             return extractCityLinks($);
         });
     
-        const climateData = await axios.get("https://en.wikipedia.org" + cityLinks[1])
-        .then(({data}) => {
-            const $ = cheerio.load(data);
-            return extractClimateData($);
-        });
-    res.send({message: climateData});
+    const climateData = await axios.get("https://en.wikipedia.org" + cityLinks[1])
+    .then(({data}) => {
+        const $ = cheerio.load(data);
+        return extractClimateData($);
+    });
+    res.send({message: JSON.stringify(climateData)});
 });
 
 app.listen(port, () => {
