@@ -71,7 +71,7 @@ app.get("/", async (req,res) => {
         const $ = cheerio.load(data);
         return extractClimateData($);
     });
-    res.send({message: JSON.stringify(climateData)});
+    res.send({message: JSON.stringify(climateData,null,2)});
 });
 
 app.listen(port, () => {

@@ -24,7 +24,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <p>{this.state.message}</p>
+        <pre>{this.state.message}</pre>
       </div>
     );
   }
