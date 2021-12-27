@@ -15,7 +15,7 @@ app.get("/", async (req,res) => {
     const climateData = await axios.get("https://en.wikipedia.org" + cityLinks[1])
     .then(({data}) => {
         const $ = cheerio.load(data);
-        return climateDataLoader.extractClimateData($);
+        return climateDataLoader.extractCityData($);
     });
     res.send({message: JSON.stringify(climateData,null,2)});
 });

@@ -3,7 +3,7 @@ const cheerio = require("cheerio");
 
 class ClimateDataLoader {
     constructor() {
-
+        
     }
 
     getCityLinks = async () => {
@@ -31,8 +31,8 @@ class ClimateDataLoader {
     };
 
     //@ts-ignore
-    extractClimateData = $ => {
-        const climateData: {[key: string]: any} = {};
+    extractCityData = $ => {
+        const cityData: {[key: string]: any} = {};
 
         const rows = $("tr")
             //@ts-ignore
@@ -46,15 +46,15 @@ class ClimateDataLoader {
         for (let i=0; i<categoryCount; i ++) {
             const categoryName = categoryTableData.first().children("th").text().trim();
             const categoryRowData = categoryTableData.children("td").text().split("\n").filter((data: string) => data);
-            climateData[categoryName] = {};
+            cityData[categoryName] = {};
             for (let j=0; j<months.length; j++) {
-                climateData[categoryName][months[j]] = categoryRowData[j];
+                cityData[categoryName][months[j]] = categoryRowData[j];
             }
             // returns the next and following elements
             categoryTableData = categoryTableData.next();
         }
 
-        return climateData;
+        return cityData;
     };
 }
 
