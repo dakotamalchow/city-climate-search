@@ -29,6 +29,33 @@ class ClimateDataLoader {
             .map((_, el) => $(el).attr("href"))
             .toArray();
     };
+
+    //@ts-ignore
+    extractClimateData = $ => {
+        const climateData: {[key: string]: any} = {};
+
+        const rows = $("tr")
+            //@ts-ignore
+            .filter((_, el) => $(el).text().includes("Climate data for"))
+            .parent().first().children();
+        const months = rows.next().first()
+            .children("th").next().text().split("\n").filter((month: string) => month);
+
+        let categoryTableData = rows.next().next();
+        const categoryCount = categoryTableData.length - 1;
+        for (let i=0; i<categoryCount; i ++) {
+            const categoryName = categoryTableData.first().children("th").text().trim();
+            const categoryRowData = categoryTableData.children("td").text().split("\n").filter((data: string) => data);
+            climateData[categoryName] = {};
+            for (let j=0; j<months.length; j++) {
+                climateData[categoryName][months[j]] = categoryRowData[j];
+            }
+            // returns the next and following elements
+            categoryTableData = categoryTableData.next();
+        }
+
+        return climateData;
+    };
 }
 
 module.exports = ClimateDataLoader;
