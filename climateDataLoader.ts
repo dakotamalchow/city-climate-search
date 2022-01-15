@@ -33,6 +33,8 @@ class ClimateDataLoader {
     //@ts-ignore
     extractCityData = $ => {
         const cityData: {[key: string]: any} = {};
+        
+        cityData.name = $("h1").text();
 
         const rows = $("tr")
             //@ts-ignore
