@@ -11,7 +11,7 @@ mongoose.connect("mongodb://127.0.0.1:27017")
     .then(() => {
         console.log("Mongo connection open");
     })
-    .catch(error => {
+    .catch((error: Error) => {
         console.log("Error connecting to Mongo: " + error);
     });
 
