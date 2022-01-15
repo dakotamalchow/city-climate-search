@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
 
-const categoryClimateData = new mongoose.Schema({
+const CategoryClimateData = new mongoose.Schema({
     January: {
         type: Schema.Types.Mixed,
         required: true
