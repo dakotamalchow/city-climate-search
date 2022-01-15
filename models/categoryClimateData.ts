@@ -1,6 +1,7 @@
-import { Schema } from "mongoose";
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
-const CategoryClimateData = new mongoose.Schema({
+const CategoryClimateData = new Schema({
     January: {
         type: Schema.Types.Mixed,
         required: true
@@ -49,4 +50,6 @@ const CategoryClimateData = new mongoose.Schema({
         type: Schema.Types.Mixed,
         required: true
     }
-})
+});
+
+module.exports = mongoose.model("CategoryClimateData",CategoryClimateData);

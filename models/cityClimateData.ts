@@ -1,6 +1,7 @@
-import { Schema } from "mongoose";
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
-const CityClimateData = new mongoose.Schema({
+const CityClimateData = new Schema({
     name: {
         type: String,
         requied: true
@@ -53,7 +54,8 @@ const CityClimateData = new mongoose.Schema({
         percentPossibleSunshine: {
             type: Schema.Types.ObjectId,
             ref: "CategoryClimateData"
-        },
-        required: true
+        }
     }
-})
+});
+
+module.exports = mongoose.model("CityClimateData",CityClimateData);

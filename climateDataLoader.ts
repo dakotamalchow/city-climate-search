@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
-const cheerio = require("cheerio");
+import cheerio from "cheerio";
 
-class ClimateDataLoader {
+export class ClimateDataLoader {
     constructor() {
         
     }
@@ -59,5 +59,3 @@ class ClimateDataLoader {
         return cityData;
     };
 }
-
-module.exports = ClimateDataLoader;
