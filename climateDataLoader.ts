@@ -32,7 +32,7 @@ export class ClimateDataLoader {
 
     //@ts-ignore
     extractCityData = $ => {
-        const cityData: {[key: string]: any} = {};
+        const cityData: dataObject = {};
         
         cityData.name = $("h1").text();
 

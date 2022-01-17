@@ -37,9 +37,9 @@ const reloadData = async () => {
     }
 }
 
-const getClimateData = (extractedClimateData: {[key: string]: any}): {[key: string]: any} => {
-    let climateData: {[key: string]: any} = {};
-    const categoriesMapping: {[key: string]: any} = {
+const getClimateData = (extractedClimateData: dataObject): dataObject => {
+    let climateData: dataObject = {};
+    const categoriesMapping: dataObject = {
         "Record high °F (°C)": "recordHigh",
         "Mean maximum °F (°C)": "meanMaximum"
     }
@@ -54,8 +54,8 @@ const getClimateData = (extractedClimateData: {[key: string]: any}): {[key: stri
     return climateData;
 }
 
-const getCategoryData = (extractedClimateDataCategory: {[key: string]: any}): {[key: string]: any} => {
-    let categoryData: {[key: string]: any} = {};
+const getCategoryData = (extractedClimateDataCategory: dataObject): dataObject => {
+    let categoryData: dataObject = {};
     return categoryData;
 }
 
