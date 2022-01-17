@@ -1,19 +1,11 @@
-import mongoose from "mongoose";
 import axios from "axios";
 import cheerio from "cheerio";
 import { ClimateDataLoader } from "../climateDataLoader";
 const CityClimateData = require("../models/cityClimateData");
 import { dataObject } from "../constants";
+import { getCategoryName } from "./climateDataHelper";
 
-const reloadData = async () => {
-    mongoose.connect("mongodb://127.0.0.1:27017")
-        .then(() => {
-            console.log("Mongo connection open");
-        })
-        .catch((error: Error) => {
-            console.log("Error connecting to Mongo: " + error);
-        });
-    
+const reloadData = async () => {    
     await CityClimateData.deleteMany();
 
     const climateDataLoader = new ClimateDataLoader();
@@ -34,29 +26,48 @@ const reloadData = async () => {
 
         await cityClimateData.save();
         console.log(`Finished uploading ${cityClimateData.name}`);
-        console.log();
     }
 }
 
 const getClimateData = (extractedClimateData: dataObject): dataObject => {
     let climateData: dataObject = {};
-    const categoriesMapping: dataObject = {
-        "Record high °F (°C)": "recordHigh",
-        "Mean maximum °F (°C)": "meanMaximum"
-    }
     
     for (const extractedProperty in extractedClimateData) {
-        const property = categoriesMapping[extractedProperty];
-        if (property) {
-            climateData[property] = getCategoryData(extractedClimateData[extractedProperty]);
+        const categoryName = getCategoryName(extractedProperty);
+        if (categoryName) {
+            climateData[categoryName] = getCategoryData(extractedClimateData[extractedProperty],categoryName);
         }
     }
 
     return climateData;
 }
 
-const getCategoryData = (extractedClimateDataCategory: dataObject): dataObject => {
+const getCategoryData = (extractedCategory: dataObject, categoryName: string): dataObject => {
     let categoryData: dataObject = {};
+    const tempCategories = ["recordHigh","meanMaximum","averageHigh","dailyMean","averageLow","meanMinimum","recordLow","averageDewPoint"];
+
+    for (const month in extractedCategory) {
+        // before formatting, data will look like: "27.7(−2.4)"
+        const dataArray = extractedCategory[month].replace(/−/g,"-").slice(0,-1).split("(");
+        if (tempCategories.includes(categoryName)) {
+            categoryData[month] = {
+                F: parseFloat(dataArray[0]),
+                C: parseFloat(dataArray[1])
+            };
+        } else if (categoryName === "averageRainfall") {
+            categoryData[month] = {
+                in: parseFloat(dataArray[0]),
+                mm: parseFloat(dataArray[1])
+            };
+        } else if (categoryName === "averageSnowfall") {
+            categoryData[month] = {
+                in: parseFloat(dataArray[0]),
+                cm: parseFloat(dataArray[1])
+            };
+        } else {
+            categoryData[month] = parseFloat(extractedCategory[month]);
+        }
+    }
 
     return categoryData;
 }
