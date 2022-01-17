@@ -3,19 +3,19 @@ const Schema = mongoose.Schema;
 import { schemaTypes } from "../constants";
 
 const categoryData = {
-    Jan: schemaTypes.requiredMixed,
-    Feb: schemaTypes.requiredMixed,
-    Mar: schemaTypes.requiredMixed,
-    Apr: schemaTypes.requiredMixed,
-    May: schemaTypes.requiredMixed,
-    Jun: schemaTypes.requiredMixed,
-    Jul: schemaTypes.requiredMixed,
-    Aug: schemaTypes.requiredMixed,
-    Sep: schemaTypes.requiredMixed,
-    Oct: schemaTypes.requiredMixed,
-    Nov: schemaTypes.requiredMixed,
-    Dec: schemaTypes.requiredMixed,
-    Year: schemaTypes.requiredMixed,
+    Jan: schemaTypes.mixed,
+    Feb: schemaTypes.mixed,
+    Mar: schemaTypes.mixed,
+    Apr: schemaTypes.mixed,
+    May: schemaTypes.mixed,
+    Jun: schemaTypes.mixed,
+    Jul: schemaTypes.mixed,
+    Aug: schemaTypes.mixed,
+    Sep: schemaTypes.mixed,
+    Oct: schemaTypes.mixed,
+    Nov: schemaTypes.mixed,
+    Dec: schemaTypes.mixed,
+    Year: schemaTypes.mixed
 };
 
 const CityClimateData = new Schema({

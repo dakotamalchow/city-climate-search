@@ -6,9 +6,8 @@ export type dataObject = {
 };
 
 export class schemaTypes {
-    static requiredMixed = {
-        type: Schema.Types.Mixed,
-        required: true
+    static mixed = {
+        type: Schema.Types.Mixed
     };
     
     static requiredString = {
