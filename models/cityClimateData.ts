@@ -30,9 +30,14 @@ const CityClimateData = new Schema({
         meanMinimum: categoryData,
         recordLow: categoryData,
         averageRainfall: categoryData,
+        averageSnowfall: categoryData,
         averageRainyDays: categoryData,
+        averageSnowyDays: categoryData,
+        averageRelativeHumidity: categoryData,
+        averageDewPoint: categoryData,
         meanMonthlySunshineHours: categoryData,
-        percentPossibleSunshine: categoryData
+        percentPossibleSunshine: categoryData,
+        averageUltravioletIndex: categoryData
     }
 });
 
