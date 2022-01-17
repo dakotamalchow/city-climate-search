@@ -16,21 +16,47 @@ const reloadData = async () => {
     await CityClimateData.deleteMany();
 
     const climateDataLoader = new ClimateDataLoader();
-    const cityLinks = await climateDataLoader.getCityLinks();
+    const cityLinks = (await climateDataLoader.getCityLinks()).splice(0,5);
 
-    const climateData = await axios.get("https://en.wikipedia.org" + cityLinks[1])
-        .then(({data}: any) => {
-            const $ = cheerio.load(data);
-            return climateDataLoader.extractCityData($);
-        });
+    for (const cityLink of cityLinks) {
+        const extractedCityData = await axios.get("https://en.wikipedia.org" + cityLink)
+            .then(({data}: any) => {
+                const $ = cheerio.load(data);
+                return climateDataLoader.extractCityData($);
+            });
+        
+        const cityClimateData = new CityClimateData();
+        cityClimateData.name = extractedCityData.name;
+        cityClimateData.link = cityLink;
+        
+        cityClimateData.climateData = getClimateData(extractedCityData);
+
+        await cityClimateData.save();
+        console.log(`Finished uploading ${cityClimateData.name}`);
+        console.log();
+    }
+}
+
+const getClimateData = (extractedClimateData: {[key: string]: any}): {[key: string]: any} => {
+    let climateData: {[key: string]: any} = {};
+    const categoriesMapping: {[key: string]: any} = {
+        "Record high °F (°C)": "recordHigh",
+        "Mean maximum °F (°C)": "meanMaximum"
+    }
     
-    const cityClimateData = new CityClimateData();
-    cityClimateData.name = climateData.name;
-    cityClimateData.link = cityLinks[1];
-    // cityClimateData.climateData.recordHigh = {
+    for (const extractedProperty in extractedClimateData) {
+        const property = categoriesMapping[extractedProperty];
+        if (property) {
+            climateData[property] = getCategoryData(extractedClimateData[extractedProperty]);
+        }
+    }
 
-    // }
-    await cityClimateData.save();
+    return climateData;
+}
+
+const getCategoryData = (extractedClimateDataCategory: {[key: string]: any}): {[key: string]: any} => {
+    let categoryData: {[key: string]: any} = {};
+    return categoryData;
 }
 
 export { reloadData };
