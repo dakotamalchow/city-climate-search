@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import cheerio from "cheerio";
+import { dataObject } from "./constants";
 
 export class ClimateDataLoader {
     constructor() {

@@ -3,6 +3,7 @@ import axios from "axios";
 import cheerio from "cheerio";
 import { ClimateDataLoader } from "../climateDataLoader";
 const CityClimateData = require("../models/cityClimateData");
+import { dataObject } from "../constants";
 
 const reloadData = async () => {
     mongoose.connect("mongodb://127.0.0.1:27017")
@@ -56,6 +57,7 @@ const getClimateData = (extractedClimateData: dataObject): dataObject => {
 
 const getCategoryData = (extractedClimateDataCategory: dataObject): dataObject => {
     let categoryData: dataObject = {};
+
     return categoryData;
 }
 
